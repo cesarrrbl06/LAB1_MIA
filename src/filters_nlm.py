@@ -9,26 +9,26 @@ def filter_nlm(
     fast_mode: bool = True
 ) -> np.ndarray:
     """
-    Aplica el algoritmo Non-Local Means (NLM) a una imagen en escala de grises [0, 1].
+    Applies the Non-Local Means (NLM) filtering algorithm to a grayscale image in [0.0, 1.0].
     
     Parameters
     ----------
     img : np.ndarray
-        Imagen en escala de grises [0, 1].
+        Grayscale input image [0.0, 1.0].
     patch_size : int, optional
-        Tamaño 2D del parche (ventana local de comparación), por defecto 5.
+        2D size of patches used for comparison, defaults to 5.
     patch_distance : int, optional
-        Radio de búsqueda para parches similares, por defecto 6.
+        Maximal distance in pixels where to search for similar patches, defaults to 6.
     h : float, optional
-        Parámetro de filtrado que controla la fuerza del suavizado. 
-        Si es None, se estima automáticamente en función de la desviación del ruido.
+        Filter parameter controlling smoothing strength. 
+        If None, estimated automatically from image noise standard deviation.
     fast_mode : bool, optional
-        Si es True, utiliza aproximación acelerada por traslación de parches.
+        If True, use accelerated patch-based algorithm.
         
     Returns
     -------
     np.ndarray
-        Imagen filtrada mediante NLM.
+        NLM filtered image.
     """
     sigma_est = np.mean(estimate_sigma(img))
     if h is None:
@@ -42,4 +42,3 @@ def filter_nlm(
         sigma=sigma_est,
         fast_mode=fast_mode
     )
-

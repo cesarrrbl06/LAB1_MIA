@@ -8,7 +8,7 @@ def filter_bilateral(
     sigma_spatial: float = 1.5
 ) -> np.ndarray:
     """
-    Filtro Bilateral: suaviza combinando proximidad espacial y similitud radiométrica (preserva bordes).
+    Bilateral Filter: smooths while combining spatial closeness and radiometric photometric similarity (edge-preserving).
     """
     return denoise_bilateral(
         img,
@@ -19,8 +19,7 @@ def filter_bilateral(
 
 def filter_total_variation(img: np.ndarray, weight: float = 0.1) -> np.ndarray:
     """
-    Filtrado por Variación Total (Total Variation Chambolle / ROF model).
-    Excelente para preservar transiciones abruptas y bordes eliminando ruido gaussiano.
+    Total Variation Denoising (Rudin-Osher-Fatemi model via Chambolle algorithm).
+    Particularly effective at preserving sharp edges while penalizing oscillatory noise.
     """
     return denoise_tv_chambolle(img, weight=weight)
-

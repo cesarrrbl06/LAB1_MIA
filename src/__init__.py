@@ -1,2 +1,1 @@
-"""Paquete de procesamiento y filtrado avanzado de imagen médica (LAB 1 - MIA)."""
-
+"""Medical Image Pre-processing and Advanced Filtering Package (Lab 1 - MIA)."""

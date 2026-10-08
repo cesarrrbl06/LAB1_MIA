@@ -1,6 +1,6 @@
 """
-Script principal del LAB 1: Métodos Avanzados de Preprocesado de Imagen Médica.
-Comprueba la carga de datos, genera ruido y evalúa los filtros implementados.
+Main verification script for LAB 1: Advanced Medical Image Pre-processing Methods.
+Checks data loading, generates noise, and evaluates implemented filters.
 """
 
 from pathlib import Path
@@ -21,47 +21,47 @@ def run_pipeline_check():
     data_dir = Path("data/raw")
     img_files = list(data_dir.glob("*.png"))
     
-    print(f"=== PRÁCTICA 1 MIA: Comprobación del Pipeline ===")
-    print(f"Imágenes detectadas en '{data_dir}': {[f.name for f in img_files]}")
+    print(f"=== MEDICAL IMAGE ANALYSIS LAB 1: Pipeline Verification ===")
+    print(f"Images found in '{data_dir}': {[f.name for f in img_files]}")
     
     if not img_files:
-        print("ERROR: No se han encontrado imágenes en data/raw/")
+        print("ERROR: No images found in data/raw/")
         return
 
     test_img_path = img_files[0]
-    print(f"\nProbando pipeline con: {test_img_path.name}")
+    print(f"\nTesting pipeline with: {test_img_path.name}")
     original = load_gray(test_img_path)
-    print(f"- Imagen cargada con éxito. Tamaño: {original.shape}, Rango: [{original.min():.3f}, {original.max():.3f}]")
+    print(f"- Image loaded successfully. Shape: {original.shape}, Intensity range: [{original.min():.3f}, {original.max():.3f}]")
 
-    # 1. Ruido
-    noisy_gauss = add_gaussian_noise(original, sigma=GAUSS_LEVELS["medio"])
-    noisy_impulse = add_impulse_noise(original, amount=IMPULSE_LEVELS["medio"])
-    print(f"- Ruido gaussiano (medio): {evaluate_quality(original, noisy_gauss)}")
-    print(f"- Ruido impulsivo (medio): {evaluate_quality(original, noisy_impulse)}")
+    # 1. Noise
+    noisy_gauss = add_gaussian_noise(original, sigma=GAUSS_LEVELS["medium"])
+    noisy_impulse = add_impulse_noise(original, amount=IMPULSE_LEVELS["medium"])
+    print(f"- Gaussian Noise (medium): {evaluate_quality(original, noisy_gauss)}")
+    print(f"- Impulse Noise (medium): {evaluate_quality(original, noisy_impulse)}")
 
-    # 2. Filtros estándar
+    # 2. Standard Filters
     f_mean = filter_mean(noisy_gauss, size=3)
     f_gauss = filter_gaussian(noisy_gauss, sigma=1.0)
     f_median = filter_median(noisy_impulse, size=3)
-    print(f"- Filtro Media (sobre Gauss): {evaluate_quality(original, f_mean)}")
-    print(f"- Filtro Gaussiano (sobre Gauss): {evaluate_quality(original, f_gauss)}")
-    print(f"- Filtro Mediana (sobre Impulsivo): {evaluate_quality(original, f_median)}")
+    print(f"- Mean Filter (on Gaussian): {evaluate_quality(original, f_mean)}")
+    print(f"- Gaussian Filter (on Gaussian): {evaluate_quality(original, f_gauss)}")
+    print(f"- Median Filter (on Impulse): {evaluate_quality(original, f_median)}")
 
     # 3. NLM
     f_nlm = filter_nlm(noisy_gauss, patch_size=5, patch_distance=4, fast_mode=True)
-    print(f"- Filtro NLM (sobre Gauss): {evaluate_quality(original, f_nlm)}")
+    print(f"- NLM Filter (on Gaussian): {evaluate_quality(original, f_nlm)}")
 
-    # 4. Anisotrópico (Perona & Malik)
+    # 4. Anisotropic (Perona & Malik)
     f_pm = filter_perona_malik(noisy_gauss, n_iter=10, kappa=0.05, option=1)
-    print(f"- Filtro Perona-Malik (sobre Gauss): {evaluate_quality(original, f_pm)}")
+    print(f"- Perona-Malik Filter (on Gaussian): {evaluate_quality(original, f_pm)}")
 
-    # 5. Método avanzado adicional (Bilateral & TV)
+    # 5. Advanced Literature Filters (Bilateral & TV)
     f_bilateral = filter_bilateral(noisy_gauss, win_size=5, sigma_color=0.05, sigma_spatial=1.5)
     f_tv = filter_total_variation(noisy_gauss, weight=0.1)
-    print(f"- Filtro Bilateral (sobre Gauss): {evaluate_quality(original, f_bilateral)}")
-    print(f"- Filtro Total Variation (sobre Gauss): {evaluate_quality(original, f_tv)}")
+    print(f"- Bilateral Filter (on Gaussian): {evaluate_quality(original, f_bilateral)}")
+    print(f"- Total Variation Filter (on Gaussian): {evaluate_quality(original, f_tv)}")
 
-    print("\n[OK] ¡Todos los módulos funcionan correctamente!")
+    print("\n[OK] All modules executed successfully!")
 
 if __name__ == "__main__":
     run_pipeline_check()

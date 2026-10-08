@@ -4,19 +4,19 @@ from skimage.metrics import structural_similarity as ssim_fn
 
 def compute_psnr(original: np.ndarray, filtered: np.ndarray, data_range: float = 1.0) -> float:
     """
-    Calcula la relación señal-ruido de pico (PSNR) en dB entre la imagen original y la filtrada.
+    Computes the Peak Signal-to-Noise Ratio (PSNR) in decibels (dB) between original and filtered images.
     """
     return float(psnr_fn(original, filtered, data_range=data_range))
 
 def compute_ssim(original: np.ndarray, filtered: np.ndarray, data_range: float = 1.0) -> float:
     """
-    Calcula el índice de similitud estructural (SSIM) entre la imagen original y la filtrada.
+    Computes the Structural Similarity Index Measure (SSIM) between original and filtered images.
     """
     return float(ssim_fn(original, filtered, data_range=data_range))
 
 def evaluate_quality(original: np.ndarray, filtered: np.ndarray) -> dict[str, float]:
     """
-    Devuelve un diccionario con las métricas principales (PSNR en dB, SSIM y MSE).
+    Returns a dictionary of objective quality metrics (PSNR in dB, SSIM, MSE).
     """
     mse = float(np.mean((original - filtered) ** 2))
     psnr_val = compute_psnr(original, filtered)
@@ -26,4 +26,3 @@ def evaluate_quality(original: np.ndarray, filtered: np.ndarray) -> dict[str, fl
         "SSIM": round(ssim_val, 4),
         "MSE": round(mse, 6)
     }
-
