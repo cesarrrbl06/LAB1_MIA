@@ -8,31 +8,31 @@ def filter_perona_malik(
     option: int = 1
 ) -> np.ndarray:
     """
-    Aplica el filtrado anisotrópico de Perona y Malik (difusión adaptativa basada en gradiente).
+    Applies Perona and Malik anisotropic diffusion (gradient-adaptive smoothing).
     
     Parameters
     ----------
     img : np.ndarray
-        Imagen de entrada 2D en escala de grises [0, 1].
+        2D grayscale input image normalized to [0.0, 1.0].
     n_iter : int, optional
-        Número de iteraciones del proceso de difusión (por defecto 15).
+        Number of diffusion iterations (defaults to 15).
     kappa : float, optional
-        Parámetro de conductividad (umbral de gradiente que preserva bordes, por defecto 0.05).
+        Conduction coefficient threshold (edge sensitivity parameter, defaults to 0.05).
     gamma : float, optional
-        Paso de integración temporal. Debe ser <= 0.25 para estabilidad numérica 2D (por defecto 0.20).
+        Integration constant (time step). Must be <= 0.25 for numerical stability in 2D (defaults to 0.20).
     option : int, optional
-        1: Función de conductividad exponencial c(g) = exp(-(g/kappa)^2) -> favorece bordes de alto contraste.
-        2: Función de conductividad racional c(g) = 1 / (1 + (g/kappa)^2) -> favorece regiones más amplias.
+        1: Exponential conduction c(g) = exp(-(g/kappa)^2) -> privileges high-contrast edges.
+        2: Rational conduction c(g) = 1 / (1 + (g/kappa)^2) -> privileges wider regions.
         
     Returns
     -------
     np.ndarray
-        Imagen filtrada mediante difusión anisotrópica.
+        Anisotropically filtered image.
     """
     diff = img.astype(np.float64).copy()
     
     for _ in range(n_iter):
-        # Gradientes direccionales (N, S, E, W) usando diferencias finitas
+        # Finite difference directional gradients (North, South, East, West)
         delta_n = np.zeros_like(diff)
         delta_s = np.zeros_like(diff)
         delta_e = np.zeros_like(diff)
@@ -43,7 +43,7 @@ def filter_perona_malik(
         delta_e[:, :-1] = diff[:, 1:] - diff[:, :-1]
         delta_w[:, 1:]  = diff[:, :-1] - diff[:, 1:]
         
-        # Coeficientes de conducción
+        # Conduction coefficients
         if option == 1:
             c_n = np.exp(-(delta_n / kappa) ** 2)
             c_s = np.exp(-(delta_s / kappa) ** 2)
@@ -55,10 +55,9 @@ def filter_perona_malik(
             c_e = 1.0 / (1.0 + (delta_e / kappa) ** 2)
             c_w = 1.0 / (1.0 + (delta_w / kappa) ** 2)
         else:
-            raise ValueError("option debe ser 1 o 2.")
+            raise ValueError("option must be 1 or 2.")
             
-        # Actualización de difusión
+        # Update diffusion state
         diff += gamma * (c_n * delta_n + c_s * delta_s + c_e * delta_e + c_w * delta_w)
         
     return np.clip(diff, 0.0, 1.0)
-

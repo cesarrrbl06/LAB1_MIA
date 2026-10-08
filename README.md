@@ -1,73 +1,81 @@
-# Práctica 1: Métodos Avanzados de Preprocesado de Imagen Médica
-**Grado en Ingeniería Biomédica — Universidad Rey Juan Carlos (URJC)**  
-*Asignatura: Análisis de Imagen Médica (MIA)*
+# Lab 1: Advanced Medical Image Pre-Processing Methods
+**Biomedical Engineering Degree — Universidad Rey Juan Carlos (URJC)**  
+*Course: Medical Image Analysis (MIA)*
 
 ---
 
-## 📁 Estructura del Proyecto
+## 📁 Project Structure
 
 ```text
 LAB1_MIA/
 │
 ├── data/
-│   ├── raw/                      # Imágenes clínicas originales (Brain MRI y Chest X-ray)
-│   └── noisy/                    # (Opcional) Imágenes ruidosas generadas
+│   └── raw/                           # Original grayscale clinical images
+│       ├── Brain_MRI_131749_T1.png    # T1-weighted Brain MRI
+│       └── Chest_Xray_PA_3-8-2010.png # Posteroanterior (PA) Chest X-ray
 │
 ├── notebooks/
-│   └── LAB_1.ipynb               # Cuaderno de experimentación interactiva y visualización
+│   └── LAB_1.ipynb                    # Main experimentation notebook (English template)
 │
-├── src/                          # Código fuente modular en Python
-│   ├── utils.py                  # Carga de imágenes (rutas relativas) y utilidades de guardado
-│   ├── noise.py                  # Generación de ruido gaussiano e impulsivo (3 niveles)
-│   ├── metrics.py                # Métricas objetivas de calidad (PSNR, SSIM, MSE)
-│   ├── filters_standard.py       # Filtros estándar (media, gaussiano, mediana)
-│   ├── filters_nlm.py            # Non-Local Means (skimage.restoration.denoise_nl_means)
-│   ├── filters_anisotropic.py    # Difusión anisotrópica de Perona y Malik
-│   └── filters_advanced.py       # Métodos avanzados del estado del arte (Bilateral / TV)
+├── src/                               # Modular Python package
+│   ├── __init__.py
+│   ├── utils.py                       # Image loading (relative paths) and high-res figure saving
+│   ├── noise.py                       # Gaussian & Impulse noise generation (low, medium, high)
+│   ├── metrics.py                     # Quantitative evaluation metrics (PSNR, SSIM, MSE)
+│   ├── filters_standard.py            # Standard filters: Mean, Gaussian, and Median
+│   ├── filters_nlm.py                 # Non-Local Means (skimage.restoration.denoise_nl_means)
+│   ├── filters_anisotropic.py         # Perona and Malik anisotropic diffusion
+│   └── filters_advanced.py            # Advanced literature filters (Bilateral & Total Variation)
 │
 ├── results/
-│   ├── figures/                  # Gráficas e histogramas exportados para el informe
-│   └── tables/                   # Tablas resumen de métricas numéricas
+│   ├── figures/                       # Exported high-resolution plots for report (300 DPI)
+│   └── tables/                        # Exported CSVs with numerical benchmarks
 │
 ├── report/
-│   ├── Lab_1_MIA.pdf             # Enunciado de la práctica
-│   └── ...                       # Informe final en PDF (máximo 10 páginas)
+│   ├── Lab_1_MIA.pdf                  # Official assignment prompt
+│   └── (Final Report PDF)             # Final report document (max. 10 pages)
 │
-├── main.py                       # Verificación rápida del pipeline completo
-├── requirements.txt              # Dependencias del entorno Python
-└── README.md                     # Documentación del repositorio
+├── main.py                            # End-to-end pipeline verification script
+├── requirements.txt                   # Environment dependencies
+└── README.md                          # Project documentation and guide
 ```
 
 ---
 
-## 🚀 Requisitos e Instalación
+## 🚀 Installation & Requirements
 
-Para instalar las dependencias necesarias:
+Install required dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
+Core dependencies: `numpy`, `scipy`, `scikit-image`, `matplotlib`, `pandas`.
+
 ---
 
-## 🧪 Ejecución de Pruebas
+## 🧪 Pipeline Verification
 
-Para comprobar que todo el pipeline y los módulos funcionan sin errores:
+To verify that all modules in `src/` load and process test images properly:
 
 ```bash
 python main.py
 ```
 
-Para continuar la experimentación interactiva y generar las visualizaciones para el informe:
-1. Abre [notebooks/LAB_1.ipynb](file:///r:/Documents/LAB1MIA/LAB1_MIA/notebooks/LAB_1.ipynb).
-2. Ejecuta las celdas de forma interactiva.
+---
+
+## 📓 Running the Notebook
+
+1. Open [notebooks/LAB_1.ipynb](file:///r:/Documents/LAB1MIA/LAB1_MIA/notebooks/LAB_1.ipynb).
+2. Execute the setup cells and implement the `# TODO` sections for parameter exploration.
+3. All plots are automatically saved into `results/figures/` via `save_figure(fig, filename)` for direct inclusion in the final report.
 
 ---
 
-## 📦 Instrucciones para la Entrega Oficial
-El archivo final debe ser un `.zip` nombrado según las instrucciones oficiales:
-- Formato: `P1_MIA_BED_26_27_GroupX.zip` (ejemplo: `P1_MIA_BED_26_27_G1_2.zip`).
-- Contenido requerido:
-  1. Informe en PDF de máximo 10 páginas.
-  2. Código fuente desarrollado (carpeta `src/`, `notebooks/` y `main.py`).
-  3. Imágenes utilizadas (`data/raw/`).
+## 📦 Final Submission Format
+The submission file must be a `.zip` named according to group guidelines:
+- Name format: `P1_MIA_BED_26_27_GroupX.zip` (e.g. `P1_MIA_BED_26_27_G1_2.zip`).
+- Deliverables required:
+  1. Single PDF report (maximum 10 pages) including individual contributions and AI disclosure statement.
+  2. Source code (`src/`, `notebooks/`, `main.py`).
+  3. Original images used (`data/raw/`).

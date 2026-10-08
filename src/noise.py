@@ -1,13 +1,21 @@
 import numpy as np
 
-# Niveles estándar para la práctica
+# Standard noise intensity levels for the lab assignment
 GAUSS_LEVELS = {
+    "low": 0.01,
+    "medium": 0.08,
+    "high": 0.20,
+    # Spanish aliases for compatibility
     "bajo": 0.01,
     "medio": 0.08,
     "alto": 0.20
 }
 
 IMPULSE_LEVELS = {
+    "low": 0.02,
+    "medium": 0.08,
+    "high": 0.20,
+    # Spanish aliases for compatibility
     "bajo": 0.02,
     "medio": 0.08,
     "alto": 0.20
@@ -15,21 +23,21 @@ IMPULSE_LEVELS = {
 
 def add_gaussian_noise(img: np.ndarray, sigma: float, rng: np.random.Generator = None) -> np.ndarray:
     """
-    Añade ruido gaussiano aditivo de media 0 y desviación típica sigma.
+    Adds zero-mean additive Gaussian noise with standard deviation sigma.
     
     Parameters
     ----------
     img : np.ndarray
-        Imagen de entrada normalizada en [0, 1].
+        Input image normalized to [0.0, 1.0].
     sigma : float
-        Desviación estándar del ruido gaussiano.
+        Standard deviation of the Gaussian distribution.
     rng : np.random.Generator, optional
-        Generador de números aleatorios para reproducibilidad.
+        Random number generator for reproducible experiments.
         
     Returns
     -------
     np.ndarray
-        Imagen ruidosa acotada a [0, 1].
+        Noisy image clipped to [0.0, 1.0].
     """
     if rng is None:
         rng = np.random.default_rng()
@@ -43,23 +51,23 @@ def add_impulse_noise(
     rng: np.random.Generator = None
 ) -> np.ndarray:
     """
-    Añade ruido impulsivo (sal y pimienta) a la imagen.
+    Adds impulse noise (salt and pepper) to an image.
     
     Parameters
     ----------
     img : np.ndarray
-        Imagen de entrada normalizada en [0, 1].
+        Input image normalized to [0.0, 1.0].
     amount : float
-        Proporción total de píxeles afectados (entre 0.0 y 1.0).
+        Overall proportion of corrupted pixels (between 0.0 and 1.0).
     salt_vs_pepper : float, optional
-        Proporción de píxeles 'sal' (blancos=1.0) frente a 'pimienta' (negros=0.0). Por defecto 0.5.
+        Proportion of 'salt' (white=1.0) vs 'pepper' (black=0.0). Defaults to 0.5.
     rng : np.random.Generator, optional
-        Generador de números aleatorios para reproducibilidad.
+        Random number generator for reproducible experiments.
         
     Returns
     -------
     np.ndarray
-        Imagen con ruido impulsivo en [0, 1].
+        Noisy image with impulse artifacts in [0.0, 1.0].
     """
     if rng is None:
         rng = np.random.default_rng()
@@ -67,10 +75,10 @@ def add_impulse_noise(
     noisy = img.copy()
     num_noisy = int(np.ceil(amount * img.size))
     
-    # Índices planos aleatorios
+    # Random flat indices
     coords = rng.choice(img.size, size=num_noisy, replace=False)
     
-    # Separar en sal y pimienta
+    # Split into salt and pepper
     num_salt = int(np.ceil(num_noisy * salt_vs_pepper))
     salt_idx = coords[:num_salt]
     pepper_idx = coords[num_salt:]
@@ -80,4 +88,3 @@ def add_impulse_noise(
     flat[pepper_idx] = 0.0
     
     return noisy
-
