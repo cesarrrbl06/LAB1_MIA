@@ -3,3 +3,5 @@ scipy>=1.10.0
 scikit-image>=0.21.0
 matplotlib>=3.7.0
 
+pandas>=2.0.0
+PyWavelets>=1.4.0

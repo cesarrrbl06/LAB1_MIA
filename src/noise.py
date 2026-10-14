@@ -4,21 +4,13 @@ import numpy as np
 GAUSS_LEVELS = {
     "low": 0.01,
     "medium": 0.08,
-    "high": 0.20,
-    # Spanish aliases for compatibility
-    "bajo": 0.01,
-    "medio": 0.08,
-    "alto": 0.20
+    "high": 0.20
 }
 
 IMPULSE_LEVELS = {
-    "low": 0.02,
-    "medium": 0.08,
-    "high": 0.20,
-    # Spanish aliases for compatibility
-    "bajo": 0.02,
-    "medio": 0.08,
-    "alto": 0.20
+    "low": 0.05,
+    "medium": 0.20,
+    "high": 0.40
 }
 
 def add_gaussian_noise(img: np.ndarray, sigma: float, rng: np.random.Generator = None) -> np.ndarray:
