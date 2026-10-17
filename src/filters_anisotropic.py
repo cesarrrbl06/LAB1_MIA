@@ -29,35 +29,42 @@ def filter_perona_malik(
     np.ndarray
         Anisotropically filtered image.
     """
-    diff = img.astype(np.float64).copy()
+    diff = img.astype(np.float32).copy()
+    k2 = np.float32(kappa * kappa)
+    g = np.float32(gamma)
+    
+    # Pre-allocate gradient buffers once to avoid reallocations in the loop
+    delta_n = np.empty_like(diff)
+    delta_s = np.empty_like(diff)
+    delta_e = np.empty_like(diff)
+    delta_w = np.empty_like(diff)
     
     for _ in range(n_iter):
-        # Finite difference directional gradients (North, South, East, West)
-        delta_n = np.zeros_like(diff)
-        delta_s = np.zeros_like(diff)
-        delta_e = np.zeros_like(diff)
-        delta_w = np.zeros_like(diff)
-        
         delta_n[:-1, :] = diff[1:, :] - diff[:-1, :]
-        delta_s[1:, :]  = diff[:-1, :] - diff[1:, :]
-        delta_e[:, :-1] = diff[:, 1:] - diff[:, :-1]
-        delta_w[:, 1:]  = diff[:, :-1] - diff[:, 1:]
+        delta_n[-1, :] = 0.0
         
-        # Conduction coefficients
+        delta_s[1:, :]  = diff[:-1, :] - diff[1:, :]
+        delta_s[0, :] = 0.0
+        
+        delta_e[:, :-1] = diff[:, 1:] - diff[:, :-1]
+        delta_e[:, -1] = 0.0
+        
+        delta_w[:, 1:]  = diff[:, :-1] - diff[:, 1:]
+        delta_w[:, 0] = 0.0
+        
         if option == 1:
-            c_n = np.exp(-(delta_n / kappa) ** 2)
-            c_s = np.exp(-(delta_s / kappa) ** 2)
-            c_e = np.exp(-(delta_e / kappa) ** 2)
-            c_w = np.exp(-(delta_w / kappa) ** 2)
+            c_n = np.exp(-(delta_n * delta_n) / k2)
+            c_s = np.exp(-(delta_s * delta_s) / k2)
+            c_e = np.exp(-(delta_e * delta_e) / k2)
+            c_w = np.exp(-(delta_w * delta_w) / k2)
         elif option == 2:
-            c_n = 1.0 / (1.0 + (delta_n / kappa) ** 2)
-            c_s = 1.0 / (1.0 + (delta_s / kappa) ** 2)
-            c_e = 1.0 / (1.0 + (delta_e / kappa) ** 2)
-            c_w = 1.0 / (1.0 + (delta_w / kappa) ** 2)
+            c_n = 1.0 / (1.0 + (delta_n * delta_n) / k2)
+            c_s = 1.0 / (1.0 + (delta_s * delta_s) / k2)
+            c_e = 1.0 / (1.0 + (delta_e * delta_e) / k2)
+            c_w = 1.0 / (1.0 + (delta_w * delta_w) / k2)
         else:
             raise ValueError("option must be 1 or 2.")
             
-        # Update diffusion state
-        diff += gamma * (c_n * delta_n + c_s * delta_s + c_e * delta_e + c_w * delta_w)
+        diff += g * (c_n * delta_n + c_s * delta_s + c_e * delta_e + c_w * delta_w)
         
     return np.clip(diff, 0.0, 1.0)

@@ -1,0 +1,13 @@
+image,noise,level,gaussian,mean,median,NLM,Perona-Malik,Bilateral,best_method,best_PSNR
+Brain MRI,gaussian,low,41.16,34.52,36.6,42.57,38.69,40.81,NLM,42.57
+Brain MRI,gaussian,medium,29.41,29.08,29.02,31.29,30.07,29.06,NLM,31.29
+Brain MRI,gaussian,high,23.67,23.49,25.18,23.95,23.86,18.65,median,25.18
+Chest X-ray,gaussian,low,43.9,42.75,42.21,44.69,41.94,43.62,NLM,44.69
+Chest X-ray,gaussian,medium,37.57,36.39,35.41,35.38,35.5,31.58,gaussian,37.57
+Chest X-ray,gaussian,high,32.2,30.03,28.7,30.82,30.48,18.25,gaussian,32.2
+Brain MRI,impulse,low,26.92,26.61,35.27,28.28,23.12,18.26,median,35.27
+Brain MRI,impulse,medium,21.02,20.85,29.85,21.53,17.95,11.94,median,29.85
+Brain MRI,impulse,high,16.75,16.67,26.67,16.96,14.26,8.73,median,26.67
+Chest X-ray,impulse,low,34.73,33.17,43.45,33.07,30.46,19.69,median,43.45
+Chest X-ray,impulse,medium,26.69,25.59,41.31,27.14,23.55,13.07,median,41.31
+Chest X-ray,impulse,high,21.45,20.76,40.24,21.7,18.48,9.71,median,40.24

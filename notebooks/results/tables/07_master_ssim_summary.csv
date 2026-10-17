@@ -1,0 +1,13 @@
+image,noise,level,gaussian,mean,median,NLM,Perona-Malik,Bilateral,best_method,best_SSIM
+Brain MRI,gaussian,low,0.955,0.953,0.976,0.957,0.931,0.951,median,0.976
+Brain MRI,gaussian,medium,0.689,0.659,0.667,0.714,0.724,0.654,Perona-Malik,0.724
+Brain MRI,gaussian,high,0.547,0.523,0.624,0.481,0.521,0.235,median,0.624
+Chest X-ray,gaussian,low,0.964,0.953,0.947,0.98,0.964,0.976,NLM,0.98
+Chest X-ray,gaussian,medium,0.904,0.865,0.833,0.883,0.902,0.711,gaussian,0.904
+Chest X-ray,gaussian,high,0.832,0.671,0.566,0.808,0.796,0.108,gaussian,0.832
+Brain MRI,impulse,low,0.701,0.682,0.988,0.73,0.644,0.423,median,0.988
+Brain MRI,impulse,medium,0.476,0.449,0.947,0.501,0.446,0.113,median,0.947
+Brain MRI,impulse,high,0.403,0.38,0.889,0.377,0.271,0.054,median,0.889
+Chest X-ray,impulse,low,0.884,0.803,0.96,0.838,0.801,0.345,median,0.96
+Chest X-ray,impulse,medium,0.786,0.583,0.936,0.673,0.54,0.04,median,0.936
+Chest X-ray,impulse,high,0.69,0.43,0.926,0.487,0.27,0.014,median,0.926
