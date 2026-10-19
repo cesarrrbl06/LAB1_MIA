@@ -1,0 +1,13 @@
+image,noise,level,PSNR (dB),SSIM
+Brain MRI,gaussian,low,40.63,0.9374
+Brain MRI,gaussian,medium,22.68,0.3605
+Brain MRI,gaussian,high,15.08,0.162
+Chest X-ray,gaussian,low,40.01,0.9187
+Chest X-ray,gaussian,medium,21.99,0.1584
+Chest X-ray,gaussian,high,14.48,0.0326
+Brain MRI,impulse,low,17.59,0.3755
+Brain MRI,impulse,medium,11.55,0.1105
+Brain MRI,impulse,high,8.56,0.055
+Chest X-ray,impulse,low,18.41,0.1913
+Chest X-ray,impulse,medium,12.39,0.0231
+Chest X-ray,impulse,high,9.39,0.0101
